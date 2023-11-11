@@ -19,7 +19,7 @@
         а) если рассчитанное число во внешнем кольце < 1 или > 2 * n, то остановить заполнение и вернуться на одну позицию назад в заполнении внутреннего кольца
         б) если рассчитанное число во внешнем кольце > нулевого элемента внешнего кольца, то остановить заполнение (так как нам нужно вывести наборы троек в лексикографическом порядке) и вернуться на одну позицию назад в заполнении внутреннего кольца
     4) для каждой позиции (pos) заполнения внутреннего кольца поддерживается следующий инвариант:
-        а) все числа использованные в заполнении внутреннего и внешнего колец различны
+        а) все числа, использованные в заполнении внутреннего и внешнего колец, различны
         б) суммы всех ранее заполненных троек одинаковые
     5) когда мы заполнили внутреннее кольцо (дошли до позиции pos = n) нам остаётся проверить последний элемент внешнего кольца, если он не использовался, то выводим получившийся набор троек и возвращаемся на одну позицию назад в заполнении внутреннего кольца.
 
@@ -32,6 +32,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <stdbool.h>
 
 struct array {
     int *a;
@@ -66,6 +67,27 @@ static void print_magic_triplets(struct array *innerCircle, struct array *outerC
     printf("\n");
 }
 
+static bool possible_to_generate_arrangement(struct array *innerCircle, struct array *outerCircle, struct array *usedNumbers, int curNum, int pos, int sum) {
+    if (usedNumbers->a[curNum] == 0) {
+        int outerNum;
+        usedNumbers->a[curNum] = 1; 
+        innerCircle->a[pos] = curNum;
+        outerNum = sum - innerCircle->a[pos - 1] - innerCircle->a[pos];
+        if ((outerNum >= 1) && (outerNum < usedNumbers->size) && (usedNumbers->a[outerNum] == 0)) {
+            outerCircle->a[pos - 1] = outerNum;
+            if (outerCircle->a[0] <= outerCircle->a[pos - 1]) {
+                usedNumbers->a[outerNum] = 1;
+                return true;
+            } else {
+                outerCircle->a[pos - 1] = 0;
+            }
+         }    
+        usedNumbers->a[curNum] = 0;
+        innerCircle->a[pos] = 0;
+    }
+    return false;
+}
+
 static void fill_circles(struct array *innerCircle, struct array *outerCircle, struct array *usedNumbers, int sum) {
     int pos = 1;
     while (pos > 0) {
@@ -84,25 +106,12 @@ static void fill_circles(struct array *innerCircle, struct array *outerCircle, s
             usedNumbers->a[outerCircle->a[pos - 1]] = 0;
             outerCircle->a[pos - 1] = 0;
             while (curNum < usedNumbers->size) {
-                if (usedNumbers->a[curNum] == 0) {
-                    int outerNum;
-                    usedNumbers->a[curNum] = 1; 
-                    innerCircle->a[pos] = curNum;
-                    outerNum = sum - innerCircle->a[pos - 1] - innerCircle->a[pos];
-                    if ((outerNum >= 1) && (outerNum < usedNumbers->size) && (usedNumbers->a[outerNum] == 0)) {
-                        outerCircle->a[pos - 1] = outerNum;
-                        if (outerCircle->a[0] <= outerCircle->a[pos - 1]) {
-                            usedNumbers->a[outerNum] = 1;
-                            ++pos;
-                            break;
-                        } else {
-                            outerCircle->a[pos - 1] = 0;
-                        }
-                    }    
-                    usedNumbers->a[curNum] = 0;
-                    innerCircle->a[pos] = 0;
+                if (possible_to_generate_arrangement(innerCircle, outerCircle, usedNumbers, curNum, pos, sum)) {
+                    ++pos;
+                    break;
+                } else {
+                    ++curNum;
                 }
-                ++curNum;
             }
         
             if (curNum >= usedNumbers->size) {
