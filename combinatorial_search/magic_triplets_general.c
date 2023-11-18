@@ -33,11 +33,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
-
-struct array {
-    int *a;
-    int size;
-};
+#include "array.h"
 
 static void read_input(int *pn) {
     int res = scanf("%d", pn);
@@ -45,16 +41,6 @@ static void read_input(int *pn) {
         printf("Incorrect input\n");
         abort();
     }
-}
-
-static void init_array(struct array *ps, int n) {
-    ps->a = calloc(n, sizeof(int));
-    ps->size = n;
-}
-
-static void free_array(struct array *ps) {
-    free(ps->a);
-    ps->size = 0;
 }
 
 static void print_magic_triplets(struct array *innerCircle, struct array *outerCircle) {
