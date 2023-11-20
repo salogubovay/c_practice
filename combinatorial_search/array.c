@@ -1,4 +1,3 @@
-#include <stdlib.h>
 #include "array.h"
 
 void init_array(struct array *ps, int n) {

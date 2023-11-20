@@ -1,4 +1,5 @@
 #include <stdbool.h>
+#include <stdio.h>
 #include "array.h"
 
 static void print_magic_triplets(struct array *innerCircle, struct array *outerCircle); 

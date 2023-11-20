@@ -1,3 +1,5 @@
+#include <stdlib.h>
+
 struct array {
     int *a;
     int size;
