@@ -10,3 +10,32 @@ void free_array(struct array *ps) {
     ps->size = 0;
 }
 
+void init_array2d(struct array2d *ps, int n, int m) {
+    ps->a = calloc(n, sizeof(int *));
+    for(int i = 0; i < n; ++i) {
+        ps->a[i] = calloc(m, sizeof(int));
+    }
+    ps->r = n;
+    ps->c = m;
+}
+
+void free_array2d(struct array2d *ps) {
+    for (int i = 0; i < ps->r; ++i) {
+        free(ps->a[i]);
+    }
+    free(ps->a);
+    ps->r = 0;
+    ps->c = 0;
+}
+
+void fill_array_with_zeros(struct array *ps) {
+    for (int i = 0; i < ps->size; ++i) {
+        ps->a[i] = 0;
+    }
+}
+
+void copy_array(int * src, int * trg, int size) {
+    for (int i = 0; i < size; ++i) {
+        trg[i] = src[i];
+    }
+}
