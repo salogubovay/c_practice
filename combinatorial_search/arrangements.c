@@ -1,90 +1,63 @@
 #include "arrangements.h"
 
-static void print_magic_triplets(struct array *innerCircle, struct array *outerCircle) {
-    for (int i = 0; i < innerCircle->size; ++i) {
-        printf("%d,%d,%d", outerCircle->a[i], innerCircle->a[i], innerCircle->a[(i + 1) % innerCircle->size]);
-        if (i != (innerCircle->size - 1)) {
-            printf("; ");
-        }
+static unsigned long long factorial(int n) {
+    unsigned long long fact = 1;
+    for (int i = 2; i <= n; ++i) {
+        fact *= i;
     }
-    printf("\n");
+    return fact;
 }
 
-static bool possible_to_generate_arrangement(struct array *innerCircle, struct array *outerCircle, struct array *usedNumbers, int curNum, int pos, int sum) {
-    if (usedNumbers->a[curNum] == 0) {
-        int outerNum;
-        usedNumbers->a[curNum] = 1; 
-        innerCircle->a[pos] = curNum;
-        outerNum = sum - innerCircle->a[pos - 1] - innerCircle->a[pos];
-        if ((outerNum >= 1) && (outerNum < usedNumbers->size) && (usedNumbers->a[outerNum] == 0)) {
-            outerCircle->a[pos - 1] = outerNum;
-            if (outerCircle->a[0] <= outerCircle->a[pos - 1]) {
-                usedNumbers->a[outerNum] = 1;
-                return true;
-            } else {
-                outerCircle->a[pos - 1] = 0;
-            }
-         }    
-        usedNumbers->a[curNum] = 0;
-        innerCircle->a[pos] = 0;
+static unsigned long long num_of_arrangements(int n, int r) {
+    if (n <= r) {
+        printf("Total number of elements n = %d is less than size of arrangement r = %d\n", n, r);
     }
-    return false;
+    return factorial(n) / factorial(n - r);
 }
 
-static void fill_circles(struct array *innerCircle, struct array *outerCircle, struct array *usedNumbers, int sum) {
-    int pos = 1;
-    while (pos > 0) {
-        if (pos == innerCircle->size) {
-            int outerNum = sum - innerCircle->a[0] - innerCircle->a[pos - 1];
-            if ((outerNum >= 1 && (outerNum < usedNumbers->size) && usedNumbers->a[outerNum] == 0) && (outerCircle->a[0] < outerNum)) {
-                outerCircle->a[pos - 1] = outerNum;
-                print_magic_triplets(innerCircle, outerCircle);
-                outerCircle->a[pos - 1] = 0;
-            }
+static void fill_arrangements(struct array2d * a2d, int maxNum) {
+    struct array usedNumbers, curArrangement;
+    int count, pos;
+    count = 0;
+    pos = 0;
+    init_array(&usedNumbers, maxNum + 1);
+    init_array(&curArrangement, a2d->c);
+
+    while (pos >= 0) {
+        if (pos == a2d->c) {
+            copy_array(curArrangement.a, a2d->a[count], curArrangement.size);
+            ++count;
             --pos;
         } else {
-            int curNum = innerCircle->a[pos] + 1;
-            usedNumbers->a[innerCircle->a[pos]] = 0;
-            innerCircle->a[pos] = 0;
-            usedNumbers->a[outerCircle->a[pos - 1]] = 0;
-            outerCircle->a[pos - 1] = 0;
-            while (curNum < usedNumbers->size) {
-                if (possible_to_generate_arrangement(innerCircle, outerCircle, usedNumbers, curNum, pos, sum)) {
+            int curNum = curArrangement.a[pos] + 1;
+            usedNumbers.a[curArrangement.a[pos]] = 0;
+            curArrangement.a[pos] = 0;
+            while (curNum < usedNumbers.size) {
+                if (usedNumbers.a[curNum] == 0) {
+                    usedNumbers.a[curNum] = 1;
+                    curArrangement.a[pos] = curNum;
                     ++pos;
                     break;
                 } else {
                     ++curNum;
                 }
             }
-        
-            if (curNum >= usedNumbers->size) {
-                --pos;
+            
+            if (curNum == usedNumbers.size) {
+                --pos; 
             }
         }
-    }
+    } 
+
+    free_array(&usedNumbers);
+    free_array(&curArrangement);
 }
 
-void generate_triplets(int n) {
-    int maxSum; 
-    struct array innerCircle, outerCircle, usedNumbers;
-
-    init_array(&innerCircle, n);
-    init_array(&outerCircle, n);
-    init_array(&usedNumbers, 2 * n + 1);
-
-    maxSum = 2 * n + 2 * n - 1 + 2 * n - 2;
-
-    for (int s = 2 * n; s <= maxSum; ++s) {
-        fill_circles(&innerCircle, &outerCircle, &usedNumbers, s);
-        for (int d = 1; d < usedNumbers.size; ++d) {
-            innerCircle.a[0] = d;
-            usedNumbers.a[d] = 1;
-            fill_circles(&innerCircle, &outerCircle, &usedNumbers, s);
-            usedNumbers.a[d] = 0;
-        }
-    }
-
-    free_array(&innerCircle);
-    free_array(&outerCircle);
-    free_array(&usedNumbers);
+struct array2d * generate_arrangements(int n, int maxNum) {
+    struct array2d *a2d;
+    unsigned long long size = num_of_arrangements(maxNum, n);
+    a2d = calloc(1, sizeof(struct array2d)); 
+    init_array2d(a2d, size, n);
+    fill_arrangements(a2d, maxNum);
+    return a2d;
 }
