@@ -1,4 +1,5 @@
 #include <stdlib.h>
+#include <stdio.h>
 
 struct array {
     int *a;
@@ -22,3 +23,11 @@ void free_array2d(struct array2d *ps);
 void fill_array_with_zeros(struct array *ps);
 
 void copy_array(int * src, int * trg, int size);
+
+void print_array2d(struct array2d *ps);
+
+void copy_array_elements(int * src, int * trg, int srcStart, int destStart, int n);
+
+void print_array(int *pa, int n);
+
+void copy_array_elements_modify(int * src, int * trg, int srcStart, int destStart, int n, int m);

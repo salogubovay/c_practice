@@ -5,6 +5,17 @@ void init_array(struct array *ps, int n) {
     ps->size = n;
 }
 
+void print_array(int *pa, int n) {
+    for (int i = 0; i < n; ++i) {
+        printf("%d", pa[i]);
+        if (i < n - 1) {
+            printf(" "); 
+        } else {
+            printf("\n");
+        }
+    }
+}
+
 void free_array(struct array *ps) {
     free(ps->a);
     ps->size = 0;
@@ -28,6 +39,12 @@ void free_array2d(struct array2d *ps) {
     ps->c = 0;
 }
 
+void print_array2d(struct array2d *ps) {
+    for (int i = 0; i < ps->r; ++i) {
+        print_array(ps->a[i], ps->c);
+    }
+}
+
 void fill_array_with_zeros(struct array *ps) {
     for (int i = 0; i < ps->size; ++i) {
         ps->a[i] = 0;
@@ -37,5 +54,17 @@ void fill_array_with_zeros(struct array *ps) {
 void copy_array(int * src, int * trg, int size) {
     for (int i = 0; i < size; ++i) {
         trg[i] = src[i];
+    }
+}
+
+void copy_array_elements(int * src, int * trg, int srcStart, int destStart, int n) {
+    for (int i = 0; i < n; ++i) {
+        trg[destStart + i] = src[srcStart + i];
+    }
+}
+
+void copy_array_elements_modify(int * src, int * trg, int srcStart, int destStart, int n, int m) {
+    for (int i = 0; i < n; ++i) {
+        trg[destStart + i] = src[srcStart + i] + m;
     }
 }

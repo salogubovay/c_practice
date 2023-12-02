@@ -44,11 +44,10 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-#include "arrangements.h"
+#include "combinatorics.h"
 
 static void read_input(int *pn) {
-    int res = scanf("%d", pn);
-    if ((res != 1) || (*pn < 3)) {
+    int res = scanf("%d", pn); if ((res != 1) || (*pn < 3)) {
         printf("Incorrect input\n");
         abort();
     }
@@ -113,7 +112,7 @@ int main() {
     int n;
     printf("Enter number of triplets: ");
     read_input(&n);
-    a2d = generate_arrangements(n, 2 * n);
+    a2d = generate_arrangements(2 * n, n);
     generate_triplets(a2d, n);
     free_array2d(a2d);
     free(a2d);
