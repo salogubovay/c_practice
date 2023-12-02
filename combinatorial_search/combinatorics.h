@@ -10,12 +10,12 @@ unsigned long long number_of_combinations(int n, int k);
 unsigned long long num_of_arrangements(int n, int r);
 
 //Knuth 4a 7.2.1.3 Algorithm T
-//returns all k-combinations of indices from 0 to n - 1
+//returns all k-combinations of numbers from 1 to n
 struct array2d * generate_combinations(int n, int t);
 
 // Knuth 4a 7.2.1.2 Algorithm P (Plain changes)
-//return all permutations of indices from 0 to n - 1
+//return all permutations of numbers from 1 to n
 struct array2d * generate_permutations(int n);
 
-//return all k-arrangements of indices from 0 to n - 1
+//return all k-arrangements of numbers from 1 to n
 struct array2d * generate_arrangements(int n, int k);
