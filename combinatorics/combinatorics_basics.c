@@ -43,5 +43,6 @@ int main() {
     printf("Number of result rows = %d\n", combObjects->r);
     print_array2d(combObjects);
     free_array2d(combObjects);
+    free(combObjects);
     return 0;
 }

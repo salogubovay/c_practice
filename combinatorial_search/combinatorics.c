@@ -35,8 +35,6 @@ struct array2d * generate_arrangements(int n, int k) {
     int arransNum, count;
     arransNum = num_of_arrangements(n, k);
     arrans = (struct array2d *) calloc(1, sizeof(struct array2d));
-    combs = (struct array2d *) calloc(1, sizeof(struct array2d));
-    perms = (struct array2d *) calloc(1, sizeof(struct array2d));
     init_array2d(arrans, arransNum, k);
     combs = generate_combinations(n, k);
     perms = generate_permutations(k);
@@ -50,6 +48,8 @@ struct array2d * generate_arrangements(int n, int k) {
         }
     }
 
+    free_array2d(combs);
+    free_array2d(perms);
     free(combs);
     free(perms);
     return arrans;
@@ -165,6 +165,7 @@ struct array2d * generate_permutations(int n) {
             isSwapped = true; 
         }
     }
+    free(a);
     free(c);
     free(o);
     return perms;
