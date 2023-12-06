@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
-#include "array.h"
+#include "../array/array.h"
 
 unsigned long long factorial(int n);
 
