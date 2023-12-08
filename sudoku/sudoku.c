@@ -7,8 +7,7 @@
 #define MAX_LINE 100
 
 static FILE * open_file(char *fileName) {
-    FILE *in_file = (FILE *) calloc(1, sizeof(FILE));
-    in_file = fopen(fileName, "r");
+    FILE *in_file = fopen(fileName, "r");
     if (in_file == NULL) {
         perror("Error opening file");
         abort(); 
