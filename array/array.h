@@ -24,6 +24,8 @@ void fill_array_with_zeros(struct array *ps);
 
 void copy_array(int * src, int * trg, int size);
 
+void copy_array2d(struct array2d *src, struct array2d * trg);
+
 void print_array2d(struct array2d *ps);
 
 void copy_array_elements(int * src, int * trg, int srcStart, int destStart, int n);
@@ -31,3 +33,5 @@ void copy_array_elements(int * src, int * trg, int srcStart, int destStart, int 
 void print_array(int *pa, int n);
 
 void copy_array_elements_modify(int * src, int * trg, int srcStart, int destStart, int n, int m);
+
+void read_digits_to_array2d_stdin(struct array2d *ps); 

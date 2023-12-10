@@ -57,6 +57,17 @@ void copy_array(int * src, int * trg, int size) {
     }
 }
 
+void copy_array2d(struct array2d *src, struct array2d * trg) {
+    if ((src->r != trg->r) || (src->c != trg->c)) {
+        printf("Sizes of arrays are not equal.\nsrc: r = %d, c = %d\ntrg: r = %d, c = %d\n", src->r, src->c, trg->r, trg->c);
+        abort();
+    }
+
+    for (int i = 0; i < src->c; ++i) {
+        copy_array(src->a[i], trg->a[i], src->c);
+    }
+}
+
 void copy_array_elements(int * src, int * trg, int srcStart, int destStart, int n) {
     for (int i = 0; i < n; ++i) {
         trg[destStart + i] = src[srcStart + i];
@@ -67,4 +78,18 @@ void copy_array_elements_modify(int * src, int * trg, int srcStart, int destStar
     for (int i = 0; i < n; ++i) {
         trg[destStart + i] = src[srcStart + i] + m;
     }
+}
+
+void read_digits_to_array2d_stdin(struct array2d *ps) { 
+    char *line;
+    int size = ps->c + 2;
+    line  = (char *) calloc(size, sizeof(char));
+    for (int row = 0; row < ps->r; ++row) {
+        fgets(line, size, stdin);
+        for (int column = 0; column < ps->c; ++column) {
+            int d = line[column] - '0';
+            ps->a[row][column] = d;
+        } 
+    }
+    free(line);
 }
