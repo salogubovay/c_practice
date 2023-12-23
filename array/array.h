@@ -35,3 +35,6 @@ void print_array(int *pa, int n);
 void copy_array_elements_modify(int * src, int * trg, int srcStart, int destStart, int n, int m);
 
 void read_digits_to_array2d_stdin(struct array2d *ps); 
+
+void read_array2d(struct array2d *ps);
+

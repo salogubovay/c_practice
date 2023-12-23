@@ -89,7 +89,21 @@ void read_digits_to_array2d_stdin(struct array2d *ps) {
         for (int column = 0; column < ps->c; ++column) {
             int d = line[column] - '0';
             ps->a[row][column] = d;
-        } 
+        }
     }
     free(line);
+}
+
+void read_array2d(struct array2d *ps) {
+    int n, res;
+    for (int i = 0; i < ps->r; ++i) {
+        for (int j = 0; j < ps->c; ++j) {
+            res = scanf("%d", &n);
+            if (res != 1) {
+                printf("Number has not recognized.\n");
+                abort();
+            }
+            ps->a[i][j] = n;
+        }
+    } 
 }
