@@ -39,13 +39,13 @@ void free_array2d(struct array2d *ps) {
     ps->c = 0;
 }
 
-void print_array2d(struct array2d *ps) {
+void print_array2d(const struct array2d *ps) {
     for (int i = 0; i < ps->r; ++i) {
         print_array(ps->a[i], ps->c);
     }
 }
 
-void fill_array_with_zeros(struct array *ps) {
+void fill_array_with_zeros(const struct array *ps) {
     for (int i = 0; i < ps->size; ++i) {
         ps->a[i] = 0;
     }
@@ -57,7 +57,7 @@ void copy_array(int * src, int * trg, int size) {
     }
 }
 
-void copy_array2d(struct array2d *src, struct array2d * trg) {
+void copy_array2d(const struct array2d *src, const struct array2d * trg) {
     if ((src->r != trg->r) || (src->c != trg->c)) {
         printf("Sizes of arrays are not equal.\nsrc: r = %d, c = %d\ntrg: r = %d, c = %d\n", src->r, src->c, trg->r, trg->c);
         abort();
@@ -80,12 +80,15 @@ void copy_array_elements_modify(int * src, int * trg, int srcStart, int destStar
     }
 }
 
-void read_digits_to_array2d_stdin(struct array2d *ps) { 
+void read_digits_to_array2d_stdin(const struct array2d *ps) { 
     char *line;
     int size = ps->c + 2;
     line  = (char *) calloc(size, sizeof(char));
     for (int row = 0; row < ps->r; ++row) {
-        fgets(line, size, stdin);
+        if (fgets(line, size, stdin) == NULL) {
+            printf("Error EOF\n");
+            abort();
+        }
         for (int column = 0; column < ps->c; ++column) {
             int d = line[column] - '0';
             ps->a[row][column] = d;
@@ -94,7 +97,7 @@ void read_digits_to_array2d_stdin(struct array2d *ps) {
     free(line);
 }
 
-void read_array2d(struct array2d *ps) {
+void read_array2d(const struct array2d *ps) {
     int n, res;
     for (int i = 0; i < ps->r; ++i) {
         for (int j = 0; j < ps->c; ++j) {
