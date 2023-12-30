@@ -4,4 +4,4 @@
 #include "../array/array.h"
 #include "sizes.h"
 
-void solve(struct array2d *initialField);
+void solve(const struct array2d *initialField);
