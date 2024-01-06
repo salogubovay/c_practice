@@ -103,7 +103,7 @@ void read_array2d(const struct array2d *ps) {
         for (int j = 0; j < ps->c; ++j) {
             res = scanf("%d", &n);
             if (res != 1) {
-                printf("Number has not recognized.\n");
+                printf("Number has not been recognized.\n");
                 abort();
             }
             ps->a[i][j] = n;
