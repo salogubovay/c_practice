@@ -68,16 +68,22 @@ static void copy_array2d_numbers(const struct array2d *src, const struct array2d
 }
 
 static void add_next_transversal(const struct Transversals *tr, const struct FieldState *fs, const int number) {
-        struct array2d nextTrans;
-        int transNum = tr->transCount->a[number];
-        if (transNum == tr->size) {
-            printf("Transversals number is greater than tr->size, next transversal cannot be added.\n");
-            abort();
-        }
-        init_array2d(&nextTrans, fs->field->r, fs->field->c);
-        tr->trans[number][transNum] = nextTrans;
-        copy_array2d(fs->field, &nextTrans);
-        tr->transCount->a[number]++;
+    struct array2d nextTrans;
+    int transNum;
+   
+    if (number >= tr->size) {
+        printf("Number is greater than tr->size, number = %d, tr->size = %d\n", number, tr->size);
+        abort();
+    }   
+    transNum = tr->transCount->a[number];
+    if (transNum == tr->size) {
+        printf("Transversals number is greater than tr->size, next transversal cannot be added.\n");
+        abort();
+    }
+    init_array2d(&nextTrans, fs->field->r, fs->field->c);
+    tr->trans[number][transNum] = nextTrans;
+    copy_array2d(fs->field, &nextTrans);
+    tr->transCount->a[number]++;
 }
 
 static void generate_transversals_for_number(const struct Transversals *tr, const struct FieldState *fs, int number, int row) {
@@ -109,6 +115,18 @@ static void generate_orthogonal_transversals_for_all_numbers(const struct array2
             }
         }
         add_next_transversal(tr, fs, number);
+#if 0  
+    /*
+        uncomment code if you want to find more orthogonal squares (search time will be increased)
+    */
+        for (int j = 0; j < initialField->c; ++j) {
+            if (initialField->a[0][j] == fs->field->a[0][j]) {
+                number = initialField->a[0][j];
+                break;
+            }
+        }
+        add_next_transversal(tr, fs, number);
+#endif
         return;
     }
 
