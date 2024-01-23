@@ -1,0 +1,1 @@
+Input square numbers should be in range [1; 10]. But current input square contains num = 0 at position row = 1, column = 10.
