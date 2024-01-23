@@ -1,9 +1,10 @@
 ../graeco_latin_squares/
 orthogonal_square
-6
+7
 dis_square_1.txt
 dis_square_2.txt
 dis_square_3.txt
 dis_square_4.txt
 dis_square_5.txt
 dis_square_6.txt
+dis_square_7.txt
