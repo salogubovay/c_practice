@@ -1,0 +1,5 @@
+../exact_cover/
+orthogonal_generator
+2
+orthogonal_generator_test1.txt
+orthogonal_generator_test2.txt

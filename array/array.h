@@ -15,7 +15,7 @@ struct array2d {
 
 void init_array(struct array *ps, int n);
 
-void init_array2d(struct array2d *ps, int n, int m);
+void init_array2d(struct array2d *ps, int rows, int columns);
 
 void free_array(struct array *ps);
 
