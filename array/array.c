@@ -21,13 +21,13 @@ void free_array(struct array *ps) {
     ps->size = 0;
 }
 
-void init_array2d(struct array2d *ps, int n, int m) {
-    ps->a = calloc(n, sizeof(int *));
-    for(int i = 0; i < n; ++i) {
-        ps->a[i] = calloc(m, sizeof(int));
+void init_array2d(struct array2d *ps, int rows, int columns) {
+    ps->a = calloc(rows, sizeof(int *));
+    for(int i = 0; i < rows; ++i) {
+        ps->a[i] = calloc(columns, sizeof(int));
     }
-    ps->r = n;
-    ps->c = m;
+    ps->r = rows;
+    ps->c = columns;
 }
 
 void free_array2d(struct array2d *ps) {

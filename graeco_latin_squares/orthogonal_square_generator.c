@@ -1,4 +1,6 @@
 #include "transversals.h"
+#include "latin_squares.h"
+
 #include <getopt.h>
 
 #define OPTSTR "a" //print all found orthogonal squares
@@ -48,50 +50,6 @@ static void generate_all_orthogonal_squares(const struct array2d *initialField, 
     }
 }
 
-static bool check_is_valid_num(int num, int size) {
-    if ((1 <= num) && (num <= size)) {
-        return true;
-    } else {
-        return false;
-    }
-}
-
-static bool check_disordered_square(const struct array2d *initialField) {
-    struct FieldState fs;
-    int i;
-    bool isValid;
-    i = 0;
-    isValid = true;
-
-    init_field_state(&fs, initialField->r, initialField->c);
-    
-    while ((i < initialField->r) && isValid) {
-        for (int j = 0; j < initialField->c; ++j) {
-            int num = initialField->a[i][j];
-
-            if (!check_is_valid_num(num, initialField->r)) {
-                printf("Input square numbers should be in range [%d; %d]. " 
-                       "But current input square contains num = %d at position row = %d, column = %d.\n", 1, initialField->r, num, i + 1, j + 1);
-                isValid = false;
-                break; 
-            }
-
-            if ((fs.usedDigitsRows->a[i][num] == 0) && (fs.usedDigitsColumns->a[j][num] == 0)) {
-                fs.field->a[i][j] = num;
-                fs.usedDigitsRows->a[i][num] = 1;
-                fs.usedDigitsColumns->a[j][num] = 1;
-            } else {
-                printf("Input square is not disordered.\n");
-                isValid = false;
-                break;
-            }
-        }
-        ++i;
-    }
-    free_field_state(&fs);
-    return isValid;
-}
-
 int main(int argc, char *argv[]) {
     struct array2d initialField;
     struct Transversals *tr;
@@ -110,7 +68,7 @@ int main(int argc, char *argv[]) {
     read_int(&size);
     init_array2d(&initialField, size, size);
     read_array2d(&initialField);
-    if (check_disordered_square(&initialField)) {
+    if (is_disordered_square(&initialField)) {
         tr = generate_orthogonal_transversals_public(&initialField); 
         init_field_state(&fs, size, size);
 

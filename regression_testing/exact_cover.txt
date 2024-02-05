@@ -1,0 +1,8 @@
+../exact_cover/
+exact_cover
+5
+exact_cover_test_1.dat
+exact_cover_test_2.dat
+exact_cover_test_3.dat
+exact_cover_test_4.dat
+exact_cover_test_5.dat
